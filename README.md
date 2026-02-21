@@ -11,15 +11,19 @@ In addition, an initial set of OpenClaw-like tools is implemented, including web
 Simplicity of design, ease of prototyping, ease of extension, and transparent implementation in MeTTa were the primary design criteria.
 The agent core comprises approximately 200 lines of code.
 
-**Usage**
+**Installation**
 
-Requires PeTTa: https://github.com/trueagi-io/PeTTa
-
-Then:
+First, get [SWI-Prolog](https://www.swi-prolog.org/). Then:
 
 ```
+git clone https://github.com/trueagi-io/PeTTa
 cd PeTTa
 mkdir -p repos && git clone https://github.com/patham9/mettaclaw repos/mettaclaw
+```
+
+**Usage**
+
+```
 cd repos/mettaclaw
 OPENAI_API_KEY=... sh ../../run.sh run.metta
 ```
