@@ -44,7 +44,7 @@ Alternatively, if PeTTa is already installed and the latest version pulled (v1.0
 
 Long-Term Memory Recall:
 
-<img width="1764" height="460" alt="image" src="https://github.com/user-attachments/assets/65d1269f-e44d-45af-8279-6760c5e4a1b4" />
+<img width="638" height="125" alt="image" src="https://github.com/user-attachments/assets/0d4817ed-e743-4e44-8bd4-a10e27ea6380" />
 
 Tool use:
 
