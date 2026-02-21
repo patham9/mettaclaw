@@ -30,7 +30,7 @@ OPENAI_API_KEY=... sh ../../run.sh run.metta
 
 **Auto-install/run**
 
-Alternatively, if PeTTa is already installed and the latest version pulled (v1.0.2 or latest commit), then running the following MeTTa file installs and runs MeTTaClaw:
+Alternatively, if PeTTa is already installed and the latest version pulled (v1.0.2 or latest commit), then running the following MeTTa file installs and runs MeTTaClaw (assuming OPENAI_API_KEY is set:
 
 ```
 !(import! &self (library lib_import))
