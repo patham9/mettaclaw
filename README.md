@@ -39,3 +39,15 @@ Alternatively, if PeTTa is already installed and the latest version pulled (v1.0
 
 !(mettaclaw)
 ```
+
+**Illustrations**
+
+Long-Term Memory Recall:
+
+<img width="1764" height="460" alt="image" src="https://github.com/user-attachments/assets/65d1269f-e44d-45af-8279-6760c5e4a1b4" />
+
+Tool use:
+
+<img width="1920" height="386" alt="image" src="https://github.com/user-attachments/assets/2cca8f0c-6734-426e-872d-bfd184dfdef3" />
+
+
