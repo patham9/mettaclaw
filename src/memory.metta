@@ -36,7 +36,6 @@
           (let $embedding (useGPTEmbedding (string-safe $str))
                (append-file (library mettaclaw ./memory/LTM.metta) (repr ((get_time_as_string) $str $embedding))))))
 
-
 (= (query $str)
    (let* (($embedding (useGPTEmbedding (string-safe $str)))
           ($text (read-file (library mettaclaw ./memory/LTM.metta)))

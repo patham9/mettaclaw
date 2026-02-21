@@ -22,15 +22,6 @@
 (= (string-safe $str)
    (string-replace (string-replace (string-replace $str "\"\"" "_quote_") "\n" "\\n") "'" "_quote_"))
 
-;(= (string-safe $s)
-;   (string-replace
-;     (string-replace
-;       (string-replace
-;         (string-replace $s "\\" "\\\\")
-;         "\"" "\\\"")
-;       "\n" "\\n")
-;     "\r" "\\r"))
-
 (= (get_time_as_string)
    (progn (translatePredicate (format_time (Predicate (string $String)) "%Y-%m-%d %H:%M:%S" (get_time)))
           $String))
