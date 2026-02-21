@@ -24,8 +24,8 @@ mkdir -p repos && git clone https://github.com/patham9/mettaclaw repos/mettaclaw
 **Usage**
 
 ```
-cd repos/mettaclaw
-OPENAI_API_KEY=... sh ../../run.sh run.metta
+cp repos/mettaclaw/run.metta ./
+OPENAI_API_KEY=... sh run.sh run.metta
 ```
 
 **Auto-install/run**
