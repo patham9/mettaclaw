@@ -1,3 +1,5 @@
+!(change-state! &prevmsg "")
+
 (= (getContext)
    (string-safe (py-str ("TIME: " (get_time_as_string) " PROMPT: " (getPrompt) " SKILLS: " (getSkills) " MEMORY: " (isMemoryFull) (getMemory) " HISTORY: " (getHistory)
                          " OUTPUT_FORMAT: " "Output a ((skillName1 args1) (skillName2 args2) (skillName3 args3)) S-expression of up to 3 commands, "
@@ -10,8 +12,11 @@
                                (initChannels)) _)
           (let $prompt (getContext)
                (progn (println! (---------iteration $k))
-                      (let* (($lastmessage (HUMAN-LAST-MSG: (string-safe (repr (receive)))))
+                      (let* (($msg (string-safe (repr (receive))))
+                             ($lastmessage (HUMAN-LAST-MSG: $msg
+                                            MESSAGE-IS-NEW: (!= $msg (get-state &prevmsg))))
                              ($_ (println! $lastmessage))
+                             ($_ (change-state! &prevmsg $msg))
                              ($send (py-str ($prompt $lastmessage)))
                              ($_ (println! (CHARS_SENT: (string_length $send) $send)))
                              ($response (useGPT $send))
