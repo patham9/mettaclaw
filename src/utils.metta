@@ -1,0 +1,58 @@
+!(import_prolog_function atomic_list_concat)
+!(import_prolog_function split_string)
+!(import_prolog_function read_line_to_string)
+!(import_prolog_function get_time)
+!(import_prolog_function string_length)
+!(import_prolog_function sub_string)
+!(import_prolog_function swrite)
+!(import_prolog_function sread)
+!(import_prolog_function string_concat)
+
+(= (sleep $t)
+   (progn (translatePredicate (sleep $t))
+          True))
+
+(= (exists-file $file)
+   (progn (translatePredicate (exists_file $file))
+          True))
+
+(= (string-replace $str $a $b)
+   (atomic_list_concat (split_string $str $a "") $b))
+
+(= (string-safe $str)
+   (string-replace (string-replace (string-replace $str "\"\"" "_quote_") "\n" "\\n") "'" "_quote_"))
+
+;(= (string-safe $s)
+;   (string-replace
+;     (string-replace
+;       (string-replace
+;         (string-replace $s "\\" "\\\\")
+;         "\"" "\\\"")
+;       "\n" "\\n")
+;     "\r" "\\r"))
+
+(= (get_time_as_string)
+   (progn (translatePredicate (format_time (Predicate (string $String)) "%Y-%m-%d %H:%M:%S" (get_time)))
+          $String))
+
+(= (last_chars $String $N)
+   (let $Len (string_length $String)
+        (sub_string $String (max 0 (- $Len $N)) $_ 0)))
+
+(= (configure $name $default)
+   (let $value (progn (println! (Input value for $name or press enter for default $default))
+                      (if (!= (argv 1) default)
+                          (read_line_to_string user_input) ""))
+        (if (== $value "")
+            (add-atom &self (= ($name) $default))
+            (let $k (collapse (translatePredicate (number_string $v1 $value)))
+                 (if (== $k ())
+                     (add-atom &self (= ($name) $value))
+                     (progn (translatePredicate (number_string $v2 $value))
+                            (add-atom &self (= ($name) $v2))))))))
+
+(= (take $k ()) ())
+(= (take $k (cons $h $t))
+   (if (== $k 0)
+       ()
+       (cons $h (take (- $k 1) $t))))
