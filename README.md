@@ -27,3 +27,15 @@ mkdir -p repos && git clone https://github.com/patham9/mettaclaw repos/mettaclaw
 cd repos/mettaclaw
 OPENAI_API_KEY=... sh ../../run.sh run.metta
 ```
+
+**Auto-install/run**
+
+If PeTTa is already installed and the latest version pulled (v1.0.2 or latest commit), then running the following MeTTa file installs and runs MeTTaClaw:
+
+```
+!(import! &self (library lib_import))
+!(git-import! "https://github.com/patham9/mettaclaw.git")
+!(import! &self (library mettaclaw lib_mettaclaw))
+
+!(mettaclaw)
+```
