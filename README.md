@@ -50,6 +50,7 @@ Long-Term Memory Recall:
 
 Tool use:
 
-<img width="1920" height="386" alt="image" src="https://github.com/user-attachments/assets/2cca8f0c-6734-426e-872d-bfd184dfdef3" />
+<img width="1323" height="188" alt="image" src="https://github.com/user-attachments/assets/18ef19c4-010a-4c94-84ce-bb49277dccfc" />
+
 
 
