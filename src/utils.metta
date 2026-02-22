@@ -20,7 +20,7 @@
    (atomic_list_concat (split_string $str $a "") $b))
 
 (= (string-safe $str)
-   (string-replace (string-replace (string-replace $str "\"\"" "_quote_") "\n" "\\n") "'" "_quote_"))
+   (string-replace (string-replace (string-replace $str "\"\"" "_quote_") "\n" "_newline_") "'" "_apostrophe_"))
 
 (= (get_time_as_string)
    (progn (translatePredicate (format_time (Predicate (string $String)) "%Y-%m-%d %H:%M:%S" (get_time)))

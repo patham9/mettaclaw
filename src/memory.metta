@@ -7,7 +7,7 @@
    (progn (println! "Initializing memory")
           (configure maxMemory 500)
           (configure maxRecallItems 5)
-          (configure maxHistory 500)))
+          (configure maxHistory 1000)))
 
 (= (getPrompt)
    (read-file (library mettaclaw ./memory/prompt.txt)))
