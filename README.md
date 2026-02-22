@@ -52,5 +52,14 @@ Tool use:
 
 <img width="1323" height="188" alt="image" src="https://github.com/user-attachments/assets/18ef19c4-010a-4c94-84ce-bb49277dccfc" />
 
+Shell output of the actual invocation of the generated MeTTa code:
+
+<img width="416" height="486" alt="image" src="https://github.com/user-attachments/assets/f5b27205-cdb2-47e7-821a-ffd93b3dd7c6" />
+
+System also added it into its Atom Space storage (embedding vector omitted):
+
+<img width="379" height="69" alt="image" src="https://github.com/user-attachments/assets/6aa59deb-33b4-42b9-a535-ae153b4b7a18" />
+
+
 
 
