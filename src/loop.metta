@@ -1,7 +1,7 @@
 !(change-state! &prevmsg "")
 
 (= (getContext)
-   (string-safe (py-str ("TIME: " (get_time_as_string) " PROMPT: " (getPrompt) " SKILLS: " (getSkills) " MEMORY: " (isMemoryFull) (getMemory) " HISTORY: " (getHistory)
+   (string-safe (py-str ("TIME: " (get_time_as_string) " PROMPT: " (getPrompt) " SKILLS: " (getSkills) " MEMORY: " (getMemory) " HISTORY: " (getHistory)
                          " OUTPUT_FORMAT: " "Output a ((skillName1 args1) (skillName2 args2) (skillName3 args3)) S-expression of up to 3 commands, "
                          "each arg is an explicit string hence needs quotes, and variables are forbidden!"))))
 
@@ -20,7 +20,6 @@
                              ($send (py-str ($prompt $lastmessage)))
                              ($_ (println! (CHARS_SENT: (string_length $send) $send)))
                              ($response (useGPT $send))
-                             ;($response "((shell \"echo 'TEXT' | nc termbin.com 9999\"))")
                              ($sexpr (catch (sread $response)))
                              ($_ (println! (RESPONSE: $sexpr)))
                              ($results (RESULTS: (collapse (for $s $sexpr (COMMAND_RETURN: ($s (eval $s)))))))

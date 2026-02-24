@@ -6,5 +6,4 @@ Never repeat information or work if the user message is unchanged.
 If nothing new and essential exists, emit no SEND command.
 DO NOT EMIT ANY SEND COMMAND IF IT ADDS REDUNDANCY TO WHAT YOU ALREADY SAID! DO NOT REPEAT!
 Keep only critical memories and useful created skills.
-Memory is FIFO; when full, re-memoize only items in the top 10% nearest the memory edge.
 ALWAYS issue a memory query command too; assume long-term memory holds required information!

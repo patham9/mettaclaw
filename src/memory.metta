@@ -16,11 +16,6 @@
    (let $ret (read-file (library mettaclaw ./memory/STM.metta))
         (last_chars $ret (maxMemory))))
 
-(= (isMemoryFull)
-   (if (< (string_length (read-file (library mettaclaw ./memory/STM.metta))) (maxMemory))
-       "State: Still_headroom"
-       "State: Already_full"))
-
 (= (getHistory)
    (let $ret (read-file (library mettaclaw ./memory/history.metta))
         (last_chars $ret (maxHistory))))
