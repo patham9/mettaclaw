@@ -1,9 +1,10 @@
 !(change-state! &prevmsg "")
 
 (= (getContext)
-   (string-safe (py-str ("TIME: " (get_time_as_string) " PROMPT: " (getPrompt) " SKILLS: " (getSkills) " MEMORY: " (getMemory) " HISTORY: " (getHistory)
-                         " OUTPUT_FORMAT: " "Output a ((skillName1 args1) (skillName2 args2) (skillName3 args3)) S-expression of up to 3 commands, "
-                         "each arg is an explicit string hence needs quotes, and variables are forbidden!"))))
+   (string-safe (py-str ("PROMPT: " (getPrompt) " SKILLS: " (getSkills)
+                         " OUTPUT_FORMAT: Output a ((skillName1 args1) (skillName2 args2) (skillName3 args3)) S-expression of up to 3 commands,"
+                         " each arg is an explicit string hence needs quotes, and variables are forbidden!"
+                         " TIME: " (get_time_as_string) " MEMORY: " (getMemory) " HISTORY: " (getHistory)))))
 
 (= (mettaclaw) 
    (mettaclaw 1))
