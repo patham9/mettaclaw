@@ -53,8 +53,11 @@ def search_(query, max_results=10):
     return parser.results[:max_results]
 
 def search(query, max_results=10):
-    ret = "("
-    for r in search_(query):
-        ret += "(TITLE: " + r["title"] + " SNIPPET: " + r["snippet"] + ") "
-    ret += ")"
-    return ret
+    try:
+        ret = "("
+        for r in search_(query):
+            ret += "(TITLE: " + r["title"] + " SNIPPET: " + r["snippet"] + ") "
+        ret += ")"
+        return ret
+    except Exception:
+        return ""
