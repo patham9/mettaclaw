@@ -26,8 +26,8 @@
 ;Receive the latest user message considering all communication channels:
 (= (receive)
    (if (== (commchannel) irc)
-       (py-call (irc.getLastMessage)))
-       (py-call (mattermost.getLastMessage)))
+       (py-call (irc.getLastMessage))
+       (py-call (mattermost.getLastMessage))))
 
 ;Send a message to all communication channels:
 (= (send $msg)
