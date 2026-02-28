@@ -1,3 +1,4 @@
+#-----LLM--------
 import os, openai
 
 client = openai.OpenAI(
@@ -12,3 +13,14 @@ def useGemma(content):
 	  max_tokens=100
 	)
 	return resp.choices[0].message.content.replace("_quote_",'"').replace("_apostrophe_","'")
+
+#-----EMBEDDING (LOCAL)--------
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer("intfloat/e5-large-v2")
+
+def useLocalEmbedding(atom):
+	return  model.encode(
+		atom,
+		normalize_embeddings=True
+	).tolist()

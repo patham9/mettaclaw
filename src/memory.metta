@@ -28,11 +28,11 @@
 
 (= (remember $str)
    (progn (append-file (library mettaclaw ./memory/STM.metta) (repr ((get_time_as_string) $str)))
-          (let $embedding (useGPTEmbedding (string-safe $str))
+          (let $embedding (py-call (llm.useLocalEmbedding (string-safe $str)))
                (append-file (library mettaclaw ./memory/LTM.metta) (repr ((get_time_as_string) $str $embedding))))))
 
 (= (query $str)
-   (let* (($embedding (useGPTEmbedding (string-safe $str)))
+   (let* (($embedding (py-call (llm.useLocalEmbedding (string-safe $str))))
           ($text (read-file (library mettaclaw ./memory/LTM.metta)))
           ($atoms (parse (string_concat (string_concat "(" $text) ")"))))
         (progn (let $sorted (msort (collapse (for ($date $atom $vector) $atoms ((cosine $vector $embedding) $date $atom))))
