@@ -1,6 +1,7 @@
 !(import! &self (library lib_patrick))
 !(import! &self (library lib_llm))
 !(import! &self (library lib_vector))
+!(import! &self (library mettaclaw llm.py))
 !(import! &self (library mettaclaw ./channels/irc.py))
 !(import! &self (library mettaclaw ./channels/mattermost.py))
 !(import! &self (library mettaclaw ./channels/websearch.py))

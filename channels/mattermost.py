@@ -13,11 +13,8 @@ MM_URL = "https://chat.singularitynet.io"
 CHANNEL_ID = "8fjrmabjx7gupy7e5kjznpt5qh" #NOT AN ID JUST NAME: "mettaclaw"x
 BOT_TOKEN = ""
 
-_headers = {
-    "Authorization": f"Bearer {BOT_TOKEN}"
-}
-
 def _get_bot_user_id():
+    global headers
     r = requests.get(
         f"{MM_URL}/api/v4/users/me",
         headers=_headers
@@ -71,10 +68,11 @@ def _ws_loop():
     _connected = False
 
 def start_mattermost(MM_URL_, CHANNEL_ID_, BOT_TOKEN_):
-    global _running, MM_URL, CHANNEL_ID, BOT_TOKEN
+    global _running, MM_URL, CHANNEL_ID, BOT_TOKEN, _headers
     MM_URL = MM_URL_
     CHANNEL_ID = CHANNEL_ID_
     BOT_TOKEN = BOT_TOKEN_
+    _headers = {"Authorization": f"Bearer {BOT_TOKEN}"}
     _running = True
     t = threading.Thread(target=_ws_loop, daemon=True)
     t.start()

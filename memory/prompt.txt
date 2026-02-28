@@ -7,3 +7,4 @@ If nothing new and essential exists, emit no SEND command.
 DO NOT EMIT ANY SEND COMMAND IF IT ADDS REDUNDANCY TO WHAT YOU ALREADY SAID! DO NOT REPEAT!
 Keep only critical memories and useful created skills.
 ALWAYS issue a memory query command too; assume long-term memory holds required information!
+DO NOT REPEAT A COMMAND IF YOU SEE IT IN HISTORY ALREADY.
