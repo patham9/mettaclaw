@@ -1,5 +1,6 @@
 import threading, json
 import requests, websocket
+import time
 
 _running = False
 _ws = None
@@ -49,18 +50,31 @@ def _ws_loop():
     ws_url = MM_URL.replace("https", "wss") + "/api/v4/websocket"
     ws = websocket.WebSocket()
     ws.connect(ws_url, header=[f"Authorization: Bearer {BOT_TOKEN}"])
+
     BOT_USER_ID = _get_bot_user_id()
     _ws = ws
     _connected = True
 
+    last_ping = time.time()
+
     while _running:
         try:
+            # send ping every 25s
+            if time.time() - last_ping > 25:
+                ws.ping()
+                last_ping = time.time()
+
+            ws.settimeout(1)
             event = json.loads(ws.recv())
+
             if event.get("event") == "posted":
                 post = json.loads(event["data"]["post"])
                 if post["channel_id"] == CHANNEL_ID and post["user_id"] != BOT_USER_ID:
                     name = _get_display_name(post["user_id"])
                     _set_last(f"{name}: {post['message']}")
+
+        except websocket.WebSocketTimeoutException:
+            continue
         except Exception:
             break
 

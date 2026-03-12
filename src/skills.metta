@@ -1,7 +1,7 @@
 (= (getSkills)
    (;INTERNAL:
     "- Remember a particular string such as skills and memories: (remember string)"
-    "- Query long-term embedding memory for skills and memories with short phrases: (query string)"
+    "- Query long-term embedding memory for skills and memories with short phrases only: (query string)"
     "- Pin a certain string as short-term working memory item to keep track of task state: (pin string)"
     ;SHELL AND FILE I/O:
     "- Execute shell command without apostrophe in string, it returns the command output to you: (shell string)"

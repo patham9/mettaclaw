@@ -5,17 +5,15 @@
 (= (reasoningMode) (empty))
 
 (= (initLoop)
-   (progn (configure maxLoops 10)
-          (configure sleepInterval 1)
+   (progn (configure maxLoops 50) ;20
+          (configure sleepInterval 1) ;10
           (configure LLM gpt-5.4)
-          (configure maxOutputToken 3000)
+          (configure maxOutputToken 6000)
           (configure reasoningMode medium)
           (change-state! &prevmsg "")
           (change-state! &lastresults "")
           (change-state! &loops (maxLoops))))
 
-!(change-state! &prevmsg "")
-!(change-state! &loops 10)
 (= (getContext)
    (string-safe (py-str ("PROMPT: " (getPrompt) " SKILLS: " (getSkills)
                          " OUTPUT_FORMAT: Output a ((skillName1 args1) (skillName2 args2) (skillName3 args3)) S-expression of up to 3 sexpr commands, double-check the parentheses it must me (cmd1 ... cmdn)!"
@@ -37,14 +35,14 @@
           (let $prompt (getContext)
                (progn (println! (---------iteration $k))
                       (let* (($msg (string-safe (repr (receive))))
-                             ($msgnew (!= $msg (get-state &prevmsg)))
-                             ($_ (if $msgnew
+                             ($msgnew (prog1 (!= $msg (get-state &prevmsg))
+                                             (change-state! &prevmsg $msg)))
+                             ($_ (if (and (> $k 1) $msgnew)
                                      (change-state! &loops (maxLoops)) _)))
                             (if (> (get-state &loops) 0)
                                 (let* (($lastmessage (HUMAN-LAST-MSG: $msg
                                                       MESSAGE-IS-NEW: $msgnew))
                                        ($_ (println! $lastmessage))
-                                       ($_ (change-state! &prevmsg $msg))
                                        ($send (py-str ($prompt $lastmessage)))
                                        ($_ (println! (CHARS_SENT: (string_length $send) $send)))
                                        ($resp (useGPT (LLM) (maxOutputToken) (reasoningMode) $send))
