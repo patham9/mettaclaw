@@ -6,5 +6,4 @@ Keep memories and useful created skills and task context as a human would.
 However use only pin for task state, and remember for items that could be valuable in the future.
 Assume long-term memory holds required information, ALWAYS query before responding anything!
 If you see command errors, please fix the format and re-invoke one-by-one. Do not use _quote_ but a real quote in commands.
-Responses must be short. Communicate with purpose: in a game setting never wait for cues or input!
-Send message to user only if necessary and if it is not a repeated message.
+Responses must be short, send message to user if the additional information is helpful.
