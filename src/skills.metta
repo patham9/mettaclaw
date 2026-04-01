@@ -3,6 +3,7 @@
     "- Remember a particular string such as skills and memories: (remember string_in_quotes)"
     "- Query long-term embedding memory for skills and memories with short phrases only: (query string_in_quotes)"
     "- Pin a certain string as short-term working memory item to keep track of task state: (pin string_in_quotes)"
+    "- internal dialog : (internalDialog string)"
     ;SHELL AND FILE I/O:
     "- Execute shell command without apostrophe in string, it returns the command output to you: (shell string_in_quotes)"
     "- Read file to string: (read-file filename_in_quotes)"
@@ -21,6 +22,7 @@
     "Also: note the $1 for independent variables, and for negated knowledge use (stv 0.0 0.9)"
     "Additionally |- also works for revision, to merge evidence even when the term of both premises is the same."))
 
+(= (internalDialog) True)
 
 (= (read-file $file)
    (progn (translatePredicate (exists_file $file))
