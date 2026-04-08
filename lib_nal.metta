@@ -57,7 +57,7 @@
 
 (= (Truth_Union (stv $f1 $c1)
                 (stv $f2 $c2))
-   ((Truth_or $f1 $f2) (* $c1 $c2)))
+   (stv (Truth_or $f1 $f2) (* $c1 $c2)))
 
 (= (Truth_Difference (stv $f1 $c1)
                      (stv $f2 $c2))
@@ -84,7 +84,7 @@
 (= (Truth_DecomposeNNN (stv $f1 $c1)
                        (stv $f2 $c2))
    (let $fn (* (- 1 $f1) (- 1 $f2))
-        ((- 1 $fn) (* $fn (* $c1 $c2)))))
+        (stv (- 1 $fn) (* $fn (* $c1 $c2)))))
 
 (= (Truth_Eternalize (stv $f $c))
    (stv $f (Truth_w2c $c)))
