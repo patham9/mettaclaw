@@ -51,6 +51,11 @@ PETTA_REPO="${PETTA_REPO:-https://github.com/trueagi-io/PeTTa}"
 PETTA_BRANCH="${PETTA_BRANCH:-main}"
 FORCE_NO_CACHE="${FORCE_NO_CACHE:-false}"
 PULL_ALWAYS="${PULL_ALWAYS:-false}"
+
+# LLM config
+LLM_MODEL="${LLM_MODEL:-}"
+OLLAMA_MODEL="${OLLAMA_MODEL:-llama3}"
+
 RUNTIME=""
 
 # --------------------------------------------------------------------
@@ -188,9 +193,20 @@ cmd_build() {
 cmd_run() {
     local script="${1:-$DEFAULT_SCRIPT}"
     
-    [[ -n "${OPENAI_API_KEY:-}" ]] || { echo -e "${RED}OPENAI_API_KEY required${NC}"; exit 1; }
+    # Check for ANY provider key (not just OpenAI - supports Ollama, Claude, etc.)
+    local has_key=0
+    [[ -n "${OPENAI_API_KEY:-}" ]] && has_key=1
+    [[ -n "${ANTHROPIC_API_KEY:-}" ]] && has_key=1
+    [[ -n "${OLLAMA_API_BASE:-}" ]] && has_key=1
+    [[ -n "${OPENROUTER_API_KEY:-}" ]] && has_key=1
+    [[ -n "${GROQ_API_KEY:-}" ]] && has_key=1
+    
+    [[ $has_key -eq 0 ]] && { echo -e "${RED}No API key found. Set OPENAI_API_KEY, ANTHROPIC_API_KEY, or OLLAMA_API_BASE${NC}"; exit 1; }
     
     echo -e "${CYAN}Running: $script${NC}"
+    [[ -n "$OPENAI_API_KEY" ]] && echo -e "${CYAN}Provider: OpenAI${NC}"
+    [[ -n "$ANTHROPIC_API_KEY" ]] && echo -e "${CYAN}Provider: Anthropic${NC}"
+    [[ -n "$OLLAMA_API_BASE" ]] && echo -e "${CYAN}Provider: Ollama${NC}"
     
     validate_config
     detect_runtime
@@ -208,7 +224,11 @@ cmd_run() {
     echo -e "${GREEN}Starting...${NC}"
     "$RUNTIME" run --rm -it \
         --name "$CONTAINER_NAME" \
-        -e "OPENAI_API_KEY=$OPENAI_API_KEY" \
+        -e "OPENAI_API_KEY=${OPENAI_API_KEY:-}" \
+        -e "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}" \
+        -e "OLLAMA_API_BASE=${OLLAMA_API_BASE:-}" \
+        -e "LLM_MODEL=${LLM_MODEL:-}" \
+        -e "OLLAMA_MODEL=${OLLAMA_MODEL:-}" \
         -e "TERM=xterm-256color" \
         -e "PETTA_PATH=$CONTAINER_PETTA_PATH" \
         $vol \
@@ -221,7 +241,12 @@ cmd_run() {
 # Interactive
 # --------------------------------------------------------------------
 cmd_start() {
-    [[ -n "${OPENAI_API_KEY:-}" ]] || { echo -e "${RED}OPENAI_API_KEY required${NC}"; exit 1; }
+    local has_key=0
+    [[ -n "${OPENAI_API_KEY:-}" ]] && has_key=1
+    [[ -n "${ANTHROPIC_API_KEY:-}" ]] && has_key=1
+    [[ -n "${OLLAMA_API_BASE:-}" ]] && has_key=1
+    
+    [[ $has_key -eq 0 ]] && { echo -e "${RED}No API key found${NC}"; exit 1; }
     
     echo -e "${CYAN}Interactive mode${NC}"
     
