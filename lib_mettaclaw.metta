@@ -6,6 +6,8 @@
 !(import! &self (library mettaclaw lib_llm_ext.py))
 !(import! &self (library mettaclaw ./src/helper.py))
 !(import! &self (library mettaclaw ./channels/irc.py))
+!(import! &self (library mettaclaw ./channels/cli.py))
+!(import! &self (library mettaclaw ./channels/embodiment.py))
 !(import! &self (library mettaclaw ./channels/mattermost.py))
 !(import! &self (library mettaclaw ./channels/websearch.py))
 !(import! &self (library mettaclaw ./src/utils))

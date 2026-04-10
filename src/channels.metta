@@ -1,44 +1,50 @@
-;configured at runtime:
+;Embodiment abstraction - supports multiple channels
+;Channel configuration (set via environment or config):
+(= (commchannel) (empty))
 (= (IRC_channel) (empty))
 (= (IRC_server) (empty))
 (= (IRC_port) (empty))
 (= (IRC_user) (empty))
-(= (commchannel) (empty))
-(= (MM_URL) (empty))
-(= (MM_CHANNEL_ID) (empty))
-(= (MM_BOT_TOKEN) (empty))
+(= (CLI_prompt) (empty))
 
-;Connect all the channels:
+;Initialize channels based on configuration
 (= (initChannels)
-   (progn (println! "Initializing channels")
-          (configure commchannel irc)
-          (if (== (commchannel) irc)
-              (progn (configure IRC_channel ##metta)
-                     (configure IRC_server "irc.quakenet.org")
-                     (configure IRC_port 6667)
-                     (configure IRC_user maxbotnick)
-                     (py-call (irc.start_irc (IRC_channel) (IRC_server) (IRC_port) (IRC_user))))
-              (progn (configure MM_URL "https://chat.singularitynet.io")
-                     (configure MM_CHANNEL_ID "8fjrmabjx7gupy7e5kjznpt5qh")
-                     (configure MM_BOT_TOKEN "")
-                     (py-call (mattermost.start_mattermost (MM_URL) (MM_CHANNEL_ID) (MM_BOT_TOKEN)))))))
+ (progn (println! "Initializing channels")
+ (let $chan (py-call (os.environ.get "METTACLAW_CHANNEL" "irc"))
+ (configure commchannel $chan)
+ (if (== (commchannel) irc)
+ (progn (configure IRC_channel (py-call (os.environ.get "IRC_CHANNEL" "##metta")))
+ (configure IRC_server (py-call (os.environ.get "IRC_SERVER" "irc.libera.chat")))
+ (configure IRC_port (py-call (os.environ.get "IRC_PORT" "6667")))
+ (configure IRC_user "mettaclaw")
+ (py-call (embodiment.start_irc (IRC_channel) (IRC_server) (IRC_port) (IRC_user))))
+ (if (== (commchannel) cli)
+ (progn (configure CLI_prompt "> ")
+ (py-call (embodiment.start_cli (CLI_prompt) "MeTTaClaw CLI - type to interact")))
+ (if (== (commchannel) mattermost)
+ (progn (py-call (mattermost.start_mattermost "https://chat.example.com" "channel" "token")))
+ (println! ("Unknown channel type: " (commchannel)))))))))
 
-;Receive the latest user message considering all communication channels:
+;Receive message from any active channel
 (= (receive)
-   (if (== (commchannel) irc)
-       (py-call (irc.getLastMessage))
-       (py-call (mattermost.getLastMessage))))
+ (py-call (embodiment.receive_all)))
 
-;Send a message to all communication channels:
-!(change-state! &lastsend "")
+;Send message to all active channels
 (= (send $msg)
-   (if (!= $msg (get-state &lastsend))
-       (progn (change-state! &lastsend $msg)
-              (let $safemsg (string-replace $msg  "\n" "\\n")
-                   (if (== (commchannel) irc)
-                       (let $temp (cut) (py-call (irc.send_message $safemsg)))
-                       (let $temp (cut) (py-call (mattermost.send_message $safemsg)))))) _))
+ (if (!= $msg (get-state &lastsend))
+ (progn (change-state! &lastsend $msg)
+ (let $safemsg (string-replace (string-replace $msg "_" " ") "\\n" "\\\\n")
+ (py-call (embodiment.send_all $safemsg))))
+ _))
 
-;Search the internet for some information:
+;Send to specific channel
+(= (send-to $channel $msg)
+ (py-call (embodiment.send_to $channel $msg)))
+
+;Get list of active channels
+(= (list-channels)
+ (py-call (embodiment.get_active_channels)))
+
+;Search the internet
 (= (search $msg)
-   (py-call (websearch.search $msg)))
+ (py-call (websearch.search $msg)))
