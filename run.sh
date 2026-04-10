@@ -81,6 +81,7 @@ cmd_run() {
             -v "$SCRIPT_DIR/lib_mettaclaw.metta:/opt/PeTTa/repos/mettaclaw/lib_mettaclaw.metta:ro"
             -v "$SCRIPT_DIR/lib_nal.metta:/opt/PeTTa/repos/mettaclaw/lib_nal.metta:ro"
             -v "$SCRIPT_DIR/lib_llm_ext.py:/opt/PeTTa/repos/mettaclaw/lib_llm_ext.py:ro"
+            -v "$SCRIPT_DIR/memory/prompt.txt:/opt/PeTTa/repos/mettaclaw/memory/prompt.txt:ro"
             -v "$SCRIPT_DIR/src:/opt/PeTTa/repos/mettaclaw/src:ro"
         )
     fi
@@ -100,6 +101,7 @@ cmd_shell() {
             -v "$SCRIPT_DIR/lib_mettaclaw.metta:/opt/PeTTa/repos/mettaclaw/lib_mettaclaw.metta:ro"
             -v "$SCRIPT_DIR/lib_nal.metta:/opt/PeTTa/repos/mettaclaw/lib_nal.metta:ro"
             -v "$SCRIPT_DIR/lib_llm_ext.py:/opt/PeTTa/repos/mettaclaw/lib_llm_ext.py:ro"
+            -v "$SCRIPT_DIR/memory/prompt.txt:/opt/PeTTa/repos/mettaclaw/memory/prompt.txt:ro"
             -v "$SCRIPT_DIR/src:/opt/PeTTa/repos/mettaclaw/src:ro"
         )
     fi

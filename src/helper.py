@@ -64,3 +64,7 @@ def normalize_string(x):
         return str(x).encode("utf-8", errors="ignore").decode("utf-8", errors="ignore")
     except Exception:
         return str(x)
+
+def clean_response(s):
+    """Replace placeholder tokens with real characters before storing to history."""
+    return s.replace("_quote_", '"').replace("_apostrophe_", "'")
