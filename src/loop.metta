@@ -9,25 +9,24 @@
 (= (maxErrorFeedback) (empty))
 
 (= (initLoop)
- (progn (configure maxNewInputLoops 50) ;20
+ (progn (configure maxNewInputLoops 50)
  (configure maxWakeLoops 1)
- (configure sleepInterval 1) ;10
+ (configure sleepInterval 1)
  (configure LLM (py-call (helper.get_llm_model)))
  (configure provider (py-call (helper.get_provider)))
  (configure maxOutputToken 6000)
  (configure reasoningMode medium)
- (configure wakeupInterval 600) ;600=10 minutes
- (configure maxErrorFeedback 2000) ;truncate error feedback in history
+ (configure wakeupInterval 600)
+ (configure maxErrorFeedback 2000)
  (change-state! &prevmsg "")
  (change-state! &lastresults "")
  (change-state! &loops (maxNewInputLoops))))
 
 (= (getContext)
-   (string-safe (py-str ("PROMPT: " (getPrompt) " SKILLS: " (getSkills)
-                         " OUTPUT_FORMAT: Output a ((skillName1 args1) (skillName2 args2) (skillName3 args3) (skillName4 args4) (skillName5 args5)) S-expression of up to 5 sexpr commands, double-check the parentheses it must be (cmd1 ... cmdn)!"
-                         " each arg is an explicit string hence needs quotes, and variables are forbidden!"
-                         " PINNED: " (get-pinned)
-                         " LAST_SKILL_USE_RESULTS: " (last_chars (get-state &lastresults) (maxFeedback)) " HISTORY: " (getHistory) " TIME: " (get_time_as_string)))))
+ (string-safe (py-str ("PROMPT: " (getPrompt) " SKILLS: " (getSkills)
+ " OUTPUT_FORMAT: Output a ((skillName1 args1) (skillName2 args2) (skillName3 args3) (skillName4 args4) (skillName5 args5)) S-expression of up to 5 sexpr commands, double-check the parentheses it must be (cmd1 ... cmdn)!"
+ " each arg is an explicit string hence needs quotes, and variables are forbidden!"
+ " LAST_SKILL_USE_RESULTS: " (last_chars (get-state &lastresults) (maxFeedback)) " HISTORY: " (getHistory) " TIME: " (get_time_as_string)))))
 
 (= (HandleError $msg $cmd $sexpr)
    (case $sexpr (((Error $a $b) (let $new (append (get-state &error) (($msg $cmd)))
