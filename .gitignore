@@ -48,3 +48,4 @@ Thumbs.db
 # MeTTaClaw specific
 memory/*.metta
 *.metta.bak
+memory/history.metta
