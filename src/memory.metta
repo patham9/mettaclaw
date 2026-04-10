@@ -3,13 +3,17 @@
 (= (maxRecallItems) (empty))
 (= (maxEpisodeRecallLines) (empty))
 (= (maxHistory) (empty))
+(= (embeddingprovider) (empty))
 
 (= (initMemory)
    (progn (println! "Initializing memory")
           (configure maxFeedback 50000)
           (configure maxRecallItems 20)
           (configure maxEpisodeRecallLines 20)
-          (configure maxHistory 30000)))
+          (configure maxHistory 30000)
+          (configure embeddingprovider OpenAI) ;OpenAI or Local
+          (if (== (embeddingprovider) Local)
+              (py-call (lib_llm_ext.initLocalEmbedding)) _)))
 
 (= (getPrompt)
    (read-file (library omegaclaw ./memory/prompt.txt)))
@@ -27,14 +31,19 @@
            (appendToHistory ((get_time_as_string) (newline) $response (newline)))
            (appendToHistory ((get_time_as_string) (newline) $response (newline) ERROR_FEEDBACK: (get-state &error))))))
 
+(= (embed $x)
+   (if (== (embeddingprovider) Local)
+       (py-call (lib_llm_ext.useLocalEmbedding (string-safe $str)))
+       (useGPTEmbedding (string-safe $str))))
+
 (= (appendToHistory $addition)
    (append-file (library omegaclaw ./memory/history.metta) (swrite $addition)))
 
 (= (remember $str)
-   (py-call (lib_chromadb.remember $str (useGPTEmbedding (string-safe $str)) (get_time_as_string))))
+   (py-call (lib_chromadb.remember $str (embed (string-safe $str)) (get_time_as_string))))
 
 (= (query $str)
-   (py-call (lib_chromadb.query (useGPTEmbedding (string-safe $str)) (maxRecallItems))))
+   (py-call (lib_chromadb.query (embed (string-safe $str)) (maxRecallItems))))
 
 (= (episodes $time)
    (py-call (helper.around_time $time (maxEpisodeRecallLines))))

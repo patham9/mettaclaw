@@ -12,7 +12,7 @@
           (configure maxWakeLoops 1)
           (configure sleepInterval 1) ;10
           (configure LLM gpt-5.4)
-          (configure provider Anthropic) ;OpenAI or ASICloud
+          (configure provider Anthropic) ;Anthropic or OpenAI or ASICloud
           (configure maxOutputToken 6000)
           (configure reasoningMode medium)
           (configure wakeupInterval 600) ;600=10 minutes

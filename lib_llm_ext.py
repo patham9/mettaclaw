@@ -40,3 +40,22 @@ def useClaude(content):
         model="claude-opus-4-6",
         content=content
     )
+
+_embedding_model = None
+
+def initLocalEmbedding():
+    model_name="intfloat/e5-large-v2"
+    global _embedding_model
+    if _embedding_model is None:
+        from sentence_transformers import SentenceTransformer
+        _embedding_model = SentenceTransformer(model_name)
+    return _embedding_model
+
+def useLocalEmbedding(atom):
+    global _embedding_model
+    if _embedding_model is None:
+        raise RuntimeError("Call initLocalEmbedding() first.")
+    return _embedding_model.encode(
+        atom,
+        normalize_embeddings=True
+    ).tolist()
