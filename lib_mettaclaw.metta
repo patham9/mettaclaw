@@ -3,6 +3,7 @@
 !(import! &self (library lib_vector))
 !(import! &self (library lib_combinatorics))
 !(import! &self (library mettaclaw lib_nal))
+!(import! &self (library mettaclaw lib_pln))
 !(import! &self (library mettaclaw lib_llm_ext.py))
 !(import! &self (library mettaclaw ./src/helper.py))
 !(import! &self (library mettaclaw ./channels/irc.py))

@@ -20,7 +20,11 @@
     "(metta (|- ((==> (--> (× $1 elephant) eat) (--> $1 ([] dangerous))) (stv 1.0 0.9))"
     "           ((--> (× tiger elephant) eat) (stv 1.0 0.9))))"
     "Also: note the $1 for independent variables, and for negated knowledge use (stv 0.0 0.9)"
-    "Additionally |- also works for revision, to merge evidence even when the term of both premises is the same."))
+    "Additionally |- also works for revision, to merge evidence even when the term of both premises is the same."
+    "You can also use PLN:"
+    "(metta (|~ ((Implication (Inheritance $1 (IntSet Feathered))"
+    "            (Inheritance $1 Bird)) (stv 1.0 0.9))"
+    "           ((Inheritance Pingu (IntSet Feathered)) (stv 1.0 0.9))))"))
 
 
 (= (read-file $file)
