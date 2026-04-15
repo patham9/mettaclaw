@@ -32,7 +32,7 @@
    (progn (translatePredicate (open $file write $Out))
           (translatePredicate (write $Out $str))
           (translatePredicate (close $Out))
-          True))
+          WRITE-FILE-SUCCESS))
 
 (= (append-file $file $str)
    (progn (translatePredicate (exists_file $file))
@@ -40,10 +40,13 @@
           (translatePredicate (write $Out $str))
           (translatePredicate (nl $Out)),
           (translatePredicate (close $Out))
-          True))
+          APPEND-FILE-SUCCESS))
 
 !(import_prolog_functions_from_file (library mettaclaw ./src/skills.pl) (shell first_char))
 
 (= (metta $str)
    (let $code (sread $str)
         (repr (swrite (eval $code)))))
+
+(= (pin $x)
+   PIN-SUCCESS)
