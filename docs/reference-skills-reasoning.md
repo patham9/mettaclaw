@@ -45,44 +45,9 @@ Whatever the inner expression returns. For NAL/PLN calls, this is a conclusion a
 
 ---
 
-## Engine selection
+## Engine selection, stopping criteria, action thresholds
 
-Pattern-to-engine mapping (summary — see [reference-orchestration.md](./reference-orchestration.md) for the full table):
-
-| Situation | Engine |
-|---|---|
-| Known chain `A → B → C` | NAL `\|-` |
-| Observed effect, seeking cause | NAL `\|-` |
-| Multiple instances → generalization | NAL `\|-` + Revision |
-| Property-based categorical inference | PLN `\|~` |
-| Independent evidence to merge | NAL or PLN revision |
-
-Fallback rule: if an engine returns empty, reformulate premises (fix term order or missing middle). If still empty, switch engine.
-
----
-
-## Stopping criteria
-
-Halt conditions the LLM is expected to monitor:
-
-| Signal | Threshold | Action |
-|---|---|---|
-| Confidence floor | `c < 0.3` | Halt — conclusion unreliable. |
-| Sufficiency threshold | `c ≥ 0.6` | Actionable for decisions. |
-| Diminishing returns | hop reduces `c` more than it adds information | Halt. |
-| Resource budget | 5 commands per cycle | Hard ceiling (loop-enforced). |
-
----
-
-## Action thresholds
-
-Before acting on a conclusion's `(f, c)`:
-
-| Tier | Gate | Do |
-|---|---|---|
-| **ACT** | `f ≥ 0.6 AND c ≥ 0.5` | Take the step. |
-| **HYPOTHESIZE** | `f ≥ 0.3 AND c ≥ 0.2` | Gather more evidence. |
-| **IGNORE** | below | Do nothing. |
+These are policy decisions, not part of the `metta` skill's API. See [reference-orchestration.md](./reference-orchestration.md) for the full tables and rationale (pattern → engine mapping, halt conditions, ACT / HYPOTHESIZE / IGNORE tiers).
 
 ---
 

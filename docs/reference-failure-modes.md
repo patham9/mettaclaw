@@ -161,7 +161,7 @@ The numbers on this page come from operational experience with **Max Botnick**, 
 
 ## See also
 
-- [intro-hybrid-reasoning.md](./intro-hybrid-reasoning.md) — why the hybrid architecture fails this way.
+- [introduction.md#the-hybrid-thesis](./introduction.md#the-hybrid-thesis) — why the hybrid architecture fails this way.
 - [reference-orchestration.md](./reference-orchestration.md) — the defense stack and thresholds in detail.
 - [tutorial-08-grounded-reasoning.md](./tutorial-08-grounded-reasoning.md) — external grounding walkthrough.
 - [tutorial-09-reliable-reasoning.md](./tutorial-09-reliable-reasoning.md) — strategic advice for getting reliable outputs.

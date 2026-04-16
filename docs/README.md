@@ -12,13 +12,10 @@ If you are new, read the Introduction in order, then pick tutorials that match w
 
 ## Introduction
 
-Start here to understand what OmegaClaw is, the hybrid reasoning thesis, and how the pieces fit together.
+Start here to understand what OmegaClaw is, the hybrid reasoning thesis, how the pieces fit together, and how to get it running.
 
-- [intro-overview.md](./intro-overview.md) — What OmegaClaw is, its design goals, honest limits
-- [intro-hybrid-reasoning.md](./intro-hybrid-reasoning.md) — LLM + formal logic as one pipeline (core thesis)
-- [intro-concepts.md](./intro-concepts.md) — AtomSpace, atomization, stv, three-tier memory, defense stack, action thresholds
-- [intro-architecture.md](./intro-architecture.md) — Three-engine layered architecture, agentic loop, neural↔symbolic sub-cycle
-- [intro-installation.md](./intro-installation.md) — Docker, manual MeTTa setup, environment variables, API keys
+- [introduction.md](./introduction.md) — What OmegaClaw is, the hybrid thesis, architecture, core vocabulary, design goals, and honest limits (merged conceptual intro).
+- [intro-installation.md](./intro-installation.md) — Docker, manual MeTTa setup, environment variables, API keys.
 
 ---
 

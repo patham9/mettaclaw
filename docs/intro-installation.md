@@ -48,10 +48,38 @@ metta run.metta provider=Anthropic LLM=claude-opus-4-6
 
 ## Environment variables and API keys
 
-Which keys you need depends on the selected providers:
+Which variables you need depends on which LLM provider, embedding provider, and channel you select. The default `provider` in `src/loop.metta` is **Anthropic**.
 
-- **LLM provider** (`provider` in `src/loop.metta`): `OpenAI`, `Anthropic`, or `ASICloud`.
-- **Embedding provider** (`embeddingprovider` in `src/memory.metta`): `OpenAI` or `Local`. `Local` uses a Python-side embedding model and needs no key.
-- **Channel**: IRC works anonymously against QuakeNet; Mattermost needs `MM_BOT_TOKEN` set in `src/channels.metta` or via `configure`.
+### LLM provider keys
+
+Set one key, matching the `provider` you configure:
+
+| `provider` value | Env var | Notes |
+|---|---|---|
+| `Anthropic` (default) | `ANTHROPIC_API_KEY` | Claude models via the Anthropic API. |
+| `OpenAI` | `OPENAI_API_KEY` | GPT models. Also reused by the OpenAI embedding provider below. |
+| `ASICloud` | `ASI_API_KEY` | ASI Alliance inference endpoint (`inference.asicloud.cudos.org`), currently routes to MiniMax models. The variable name is deliberately `ASI_API_KEY` — not `ASI_KEY` or `ASICLOUD_API_KEY`. |
+
+Only the variable for your selected `provider` is required; the others can be unset.
+
+### Embedding provider keys
+
+Set via `embeddingprovider` in `src/memory.metta`:
+
+| `embeddingprovider` value | Env var | Notes |
+|---|---|---|
+| `Local` | *(none)* | Uses `intfloat/e5-large-v2` through `sentence_transformers`. Downloaded on first run. |
+| `OpenAI` | `OPENAI_API_KEY` | Reuses the same key as the OpenAI LLM provider. |
+
+### Channel keys
+
+| Channel | Env var | Notes |
+|---|---|---|
+| IRC | *(none required)* | Connects anonymously to QuakeNet. Optional `OMEGACLAW_AUTH_SECRET` gates who the agent treats as its owner. |
+| Mattermost | `MM_BOT_TOKEN` | Set via `configure` or directly in `src/channels.metta`. |
+
+### Docker setup script
+
+`scripts/omegaclaw_setup.sh` (invoked by the Docker one-liner above) asks which provider you want, writes the chosen key into the container's runtime config, and auto-pairs the embedding provider: `Anthropic → Local`, `OpenAI → OpenAI`, `ASICloud → Local`. You don't need to set anything manually when using Docker.
 
 All runtime parameters are listed in [reference-configuration.md](./reference-configuration.md).
