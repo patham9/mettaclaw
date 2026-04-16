@@ -30,13 +30,14 @@
        (py-call (mattermost.getLastMessage))))
 
 ;Send a message to all communication channels:
+!(change-state! &lastsend "")
 (= (send $msg)
-   (progn (change-state! &lastsend $msg)
-          (let $safemsg (string-replace $msg  "\n" "\\n")
-               (if (== (commchannel) irc)
-                   (let $temp (cut) (py-call (irc.send_message $safemsg)))
-                   (let $temp (cut) (py-call (mattermost.send_message $safemsg)))
-                   SEND-SUCCESS))))
+   (if (!= $msg (get-state &lastsend))
+       (progn (change-state! &lastsend $msg)
+              (let $safemsg (string-replace $msg  "\n" "\\n")
+                   (if (== (commchannel) irc)
+                       (let $temp (cut) (py-call (irc.send_message $safemsg)))
+                       (let $temp (cut) (py-call (mattermost.send_message $safemsg)))))) _))
 
 ;Search the internet for some information:
 (= (search $msg)
