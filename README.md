@@ -8,6 +8,12 @@
 
 ---
 
+## Documentation
+
+Full documentation lives in [`docs/`](./docs/README.md): introduction, tutorials, and API reference as a flat set of markdown files.
+
+---
+
 ## Overview
 
 OmegaClaw is an agentic AI system implemented in **MeTTa**.
