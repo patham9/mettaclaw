@@ -90,7 +90,7 @@ When done interacting with your OmegaClaw, please use these commands as needed:
 |--------|---------|
 | Stop OmegaClaw | `docker stop omegaclaw` |
 | View logs | `docker logs -f omegaclaw` |
-| Clear memory | `docker rm -f omegaclaw 2>/dev/null || true` then `docker volume rm omegaclaw-memory` |
+| Clear memory | `docker volume rm omegaclaw-memory` |
 
 To restart Omegaclaw simply rerun the single curl command show above. When you restart OmegaClaw, you will receive a new authentication token secret to paste into your IRC channel chat for re-verification.
 
