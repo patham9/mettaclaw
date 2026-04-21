@@ -160,7 +160,7 @@ help() {
     echo -e "Commands:"
     echo -e "\tstart start new docker container"
     echo -e "\tstop stop docker container"
-    echo -e "\tclean cleanup memory"
+    echo -e "\tclean remove container and clean up memory"
     echo
     echo -e "Options:"
     echo -e "\t-s <auth secret> set secret for the communication channel (default is 0000)"
@@ -235,7 +235,8 @@ stop() {
     docker stop omegaclaw
 }
 
-cleanup() {
+clean() {
+    docker rm -f omegaclaw
     docker volume rm omegaclaw-memory
 }
 
@@ -244,7 +245,8 @@ options "$@"
 case "${command}" in
     start) start ;;
     stop) stop ;;
-    cleanup) cleanup ;;
+    clean) clean ;;
+    -h) help ;;
     *) image="${command}"
        bootstrap
        ;;
