@@ -1,9 +1,6 @@
 # OmegaClaw
 
-<p align="center">
-  <img src="./omegaclaw-logo-SoD_g_nX.png" alt="OmegaClaw logo" width="220" />
-</p>
-
+![OmegaClaw banner](/docs/assets/banner.png)
 
 
 ---
