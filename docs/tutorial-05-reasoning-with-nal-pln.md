@@ -153,7 +153,7 @@ Starting with each premise at `c = 0.9`:
 
 ## Verification
 
-- `docker logs` shows the `(metta (|- ...))` or `(metta (|~ ...))` call and its conclusion with an updated `(stv ...)`.
+- Logs show the `(metta (|- ...))` or `(metta (|~ ...))` call and its conclusion with an updated `(stv ...)`.
 - Revision on shared terms produces confidence **strictly greater** than either input — this is a quick sanity check that revision is firing.
 - Deduction confidence matches `f₁ × f₂ × c₁ × c₂` within rounding.
 

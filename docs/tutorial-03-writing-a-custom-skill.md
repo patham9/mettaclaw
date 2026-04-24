@@ -60,7 +60,7 @@ The LLM should emit `(word-count "the quick brown fox")` and respond with `4`.
 
 ## Verification
 
-- The new skill appears in the prompt (`docker logs` and search for `word-count`).
+- The new skill appears in the prompt (search logs for `word-count`).
 - The LLM invokes it without prompting tweaks.
 - The return value shows up in `LAST_SKILL_USE_RESULTS` on the next turn.
 

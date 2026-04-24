@@ -97,7 +97,7 @@ Grounding a single fact **persists across sessions** through `remember`. Every s
 
 ## Verification
 
-- The fact is present in long-term memory with its source (grep `docker logs` or `query` for the source string).
+- The fact is present in long-term memory with its source (search logs for `query` for the source string).
 - Conclusions that depend on the grounded fact clear the ACT threshold (`f ≥ 0.6, c ≥ 0.5`) — see [reference-orchestration.md](./reference-orchestration.md).
 - Re-running the same question produces a stable answer (low variance).
 

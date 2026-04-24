@@ -71,7 +71,7 @@ Change any of these by editing the `configure` calls in `initMemory` or passing 
 
 ## Verification
 
-- After `remember`, `docker logs` shows the ChromaDB write.
+- After `remember`, logs shows the ChromaDB write.
 - A semantically related question (not keyword match) recalls the fact.
 - `episodes` returns a contiguous block of history around the requested timestamp.
 

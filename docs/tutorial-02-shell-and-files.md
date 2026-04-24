@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - A running OmegaClaw (see [Usage](/README.md#usage)).
-- Awareness that these skills run with the permissions of the OmegaClaw process. In Docker this is the container user; outside Docker, it is your user.
+- Awareness that these skills run with the permissions of the OmegaClaw process.
 
 ## The four I/O skills
 
@@ -40,7 +40,7 @@ Expected: `(write-file "/tmp/haiku.txt" "...")`, then on the next turn `(read-fi
 start a log at /tmp/session.log and append a line summarizing every turn
 ```
 
-The agent should `(append-file "/tmp/session.log" "...")` on each subsequent turn. Inspect with `docker exec omegaclaw cat /tmp/session.log`.
+The agent should `(append-file "/tmp/session.log" "...")` on each subsequent turn. Inspect cat `/tmp/session.log`.
 
 ## Safety notes
 
