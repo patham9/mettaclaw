@@ -6,7 +6,7 @@ The core agent loop is approximately **200 lines of MeTTa**.
 
 > Most AI assistants generate answers that sound right. OmegaClaw-hosted agents generate answers that come with a **mathematical receipt** showing exactly how confident each conclusion is and what evidence supports it. When the agent says it is 72% confident, that number comes from formal inference — not a feeling.
 
-This page is the conceptual introduction: what OmegaClaw is, why the hybrid architecture exists, how the pieces connect at runtime, the vocabulary used throughout the rest of the docs, and the honest limits of the current system. For getting a running instance, see [intro-installation.md](./intro-installation.md). For hands-on walkthroughs, see the tutorials listed at the end.
+This page is the conceptual introduction: what OmegaClaw is, why the hybrid architecture exists, how the pieces connect at runtime, the vocabulary used throughout the rest of the docs, and the honest limits of the current system. For getting a running instance, see [installation instruction](/README.md#installation). For hands-on walkthroughs, see the tutorials listed at the end.
 
 ---
 
@@ -187,7 +187,7 @@ user message
                   lib_chromadb.remember(str, vec, timestamp)
 ```
 
-For a **grounded** write with provenance, the pattern is the same, but the LLM first queries memory, then fetches from a verified source before calling `remember`. See [tutorial-08-grounded-reasoning.md](./tutorial-08-grounded-reasoning.md).
+For a **grounded** write with provenance, the pattern is the same, but the LLM first queries memory, then fetches from a verified source before calling `remember`. See [tutorial-07-grounded-reasoning.md](./tutorial-07-grounded-reasoning.md).
 
 ### Three-tier memory interaction
 
@@ -313,7 +313,7 @@ See [reference-orchestration.md](./reference-orchestration.md) for each layer.
 
 ### External grounding
 
-The pattern of anchoring a premise's confidence on a verified external source rather than the LLM's prior. The primary mitigation for premise-formulation errors. See [tutorial-08-grounded-reasoning.md](./tutorial-08-grounded-reasoning.md).
+The pattern of anchoring a premise's confidence on a verified external source rather than the LLM's prior. The primary mitigation for premise-formulation errors. See [tutorial-07-grounded-reasoning.md](./tutorial-07-grounded-reasoning.md).
 
 ### Revision
 
@@ -325,7 +325,7 @@ The failure mode where a flawed premise is run through the formal engine and eme
 
 ### Agentverse-backed skill
 
-A skill whose implementation is a remote agent reached through the Agentverse bridge rather than a local function. See [tutorial-07-remote-agentverse-skills.md](./tutorial-07-remote-agentverse-skills.md).
+A skill whose implementation is a remote agent reached through the Agentverse bridge rather than a local function. See [tutorial-06-remote-agentverse-skills.md](./tutorial-06-remote-agentverse-skills.md).
 
 ---
 
@@ -355,14 +355,13 @@ The hybrid design moves the failure mode — it does not eliminate it. Known iss
 
 **Garbage In, Garbage Out** applies with a twist: the formal engine does not merely pass through garbage, it **amplifies** it by lending mathematical authority to conclusions derived from flawed premises.
 
-The mitigations (external grounding, revision, action thresholds, the defense stack) are documented and non-optional for production use. See [reference-failure-modes.md](./reference-failure-modes.md) for the full catalogue and [tutorial-09-reliable-reasoning.md](./tutorial-09-reliable-reasoning.md) for strategy.
+The mitigations (external grounding, revision, action thresholds, the defense stack) are documented and non-optional for production use. See [reference-failure-modes.md](./reference-failure-modes.md) for the full catalogue and [tutorial-08-reliable-reasoning.md](./tutorial-08-reliable-reasoning.md) for strategy.
 
 ---
 
 ## Where to go next
 
-- [intro-installation.md](./intro-installation.md) — get a running instance.
-- [tutorial-01-first-run.md](./tutorial-01-first-run.md) — hands-on first session.
+- [tutorial-01-teaching-memories.md](./tutorial-01-teaching-memories.md) — hands-on first session.
 - [reference-orchestration.md](./reference-orchestration.md) — engine selection, stopping criteria, action thresholds, defense stack.
 - [reference-internals-loop.md](./reference-internals-loop.md) — turn structure in detail.
 - [reference-internals-memory-store.md](./reference-internals-memory-store.md) — the three memory tiers.
