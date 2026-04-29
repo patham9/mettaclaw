@@ -13,8 +13,8 @@
           (configure maxWakeLoops 1)
           (configure spamShield True)
           (configure sleepInterval 1) ;10
-          (configure LLM gpt-5.4)
-          (configure provider Anthropic) ;Anthropic or OpenAI or ASICloud
+          (configure LLM gemma3:1b );name of the model
+          (configure provider Ollama) ;Ollama or OpenRouter or Anthropic or OpenAI or ASICloud
           (configure maxOutputToken 6000)
           (configure reasoningMode medium)
           (configure wakeupInterval 600) ;600=10 minutes
@@ -58,11 +58,15 @@
                                        ($_ (println! $lastmessage))
                                        ($send (py-str ($prompt $lastmessage)))
                                        ($_ (println! (CHARS_SENT: (string_length $send) $send)))
-                                       ($respi (if (== (provider) OpenAI)
-                                                   (useGPT (LLM) (maxOutputToken) (reasoningMode) $send)
-                                                   (if (== (provider) Anthropic)
-                                                       (py-call (lib_llm_ext.useClaude $send))
-                                                       (py-call (lib_llm_ext.useMiniMax $send)))))
+                                       ($respi (if (== (provider) Ollama)
+                                                   (py-call (lib_llm_ext.useOllama $send (LLM)))
+                                                   (if (== (provider) OpenRouter)
+                                                       (py-call (lib_llm_ext.useOpenRouter $send (LLM)))
+                                                       (if (== (provider) OpenAI)
+                                                           (useGPT (LLM) (maxOutputToken) (reasoningMode) $send)
+                                                           (if (== (provider) Anthropic)
+                                                               (py-call (lib_llm_ext.useClaude $send))
+                                                               (py-call (lib_llm_ext.useMiniMax $send)))))))
                                        ($resp (py-call (helper.balance_parentheses $respi)))
                                        ($response (if (== "(" (first_char $resp)) $resp (progn (println! $resp) (repr (REMEMBER:OUTPUT_NOTHING_ELSE_THAN: ((skill arg) ...))))))
                                        ($sexpr (catch (sread $response)))
