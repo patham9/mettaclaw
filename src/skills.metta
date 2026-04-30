@@ -12,6 +12,7 @@
     ;COMMUNICATION CHANNELS:
     "- Send message to user: send string"
     "- Search the web: search string"
+    "- Generate 3 campaign ideas for a brand and concept note: (campaign-ideas brand_in_quotes concept_note_in_quotes)"
     ;CODE EXECUTION:
     "- Execute MeTTa expression: metta sexpression"
     "Example to invoke Non-Axiomatic Logic via MeTTa: "
@@ -46,6 +47,11 @@
 (= (metta $str)
    (let $code (sread $str)
         (repr (swrite (eval $code)))))
+
+!(import! &self (library mettaclaw ./channels/campaign.py))
+
+(= (campaign-ideas $brand $concept)
+   (py-call (campaign.campaign_ideas $brand $concept)))
 
 (= (pin $x)
    PIN-SUCCESS)

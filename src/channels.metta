@@ -13,7 +13,7 @@
    (progn (println! "Initializing channels")
           (configure commchannel irc)
           (if (== (commchannel) irc)
-              (progn (configure IRC_channel ##metta)
+              (progn (configure IRC_channel ##metta-private)
                      (configure IRC_server "irc.quakenet.org")
                      (configure IRC_port 6667)
                      (configure IRC_user maxbotnick)

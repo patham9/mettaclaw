@@ -12,9 +12,9 @@
    (progn (configure maxNewInputLoops 50) ;20
           (configure maxWakeLoops 1)
           (configure spamShield True)
-          (configure sleepInterval 1) ;10
+          (configure sleepInterval 5) ;10
           (configure LLM gpt-5.4)
-          (configure provider Anthropic) ;Anthropic or OpenAI or ASICloud
+          (configure provider Ollama) ;Anthropic or OpenAI or ASICloud
           (configure maxOutputToken 6000)
           (configure reasoningMode medium)
           (configure wakeupInterval 600) ;600=10 minutes
@@ -59,10 +59,12 @@
                                        ($send (py-str ($prompt $lastmessage)))
                                        ($_ (println! (CHARS_SENT: (string_length $send) $send)))
                                        ($respi (if (== (provider) OpenAI)
-                                                   (useGPT (LLM) (maxOutputToken) (reasoningMode) $send)
-                                                   (if (== (provider) Anthropic)
-                                                       (py-call (lib_llm_ext.useClaude $send))
-                                                       (py-call (lib_llm_ext.useMiniMax $send)))))
+                                             (useGPT (LLM) (maxOutputToken) (reasoningMode) $send)
+                                             (if (== (provider) Anthropic)
+                                                (py-call (lib_llm_ext.useClaude $send))
+                                                (if (== (provider) Ollama)
+                                                   (py-call (lib_llm_ext.useOllama $send))
+                                                   (py-call (lib_llm_ext.useMiniMax $send))))))
                                        ($resp (py-call (helper.balance_parentheses $respi)))
                                        ($response (if (== "(" (first_char $resp)) $resp (progn (println! $resp) (repr (REMEMBER:OUTPUT_NOTHING_ELSE_THAN: ((skill arg) ...))))))
                                        ($sexpr (catch (sread $response)))
