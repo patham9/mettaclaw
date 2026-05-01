@@ -31,7 +31,7 @@
                          " toolName4 arg4" (newline)
                          " toolName5 arg5" (newline)
                          " LAST_SKILL_USE_RESULTS: " (last_chars (get-state &lastresults) (maxFeedback)) " HISTORY: " (getHistory)
-                         " PRELUDE: " (last_chars (metta "(collapse (prelude))") (maxFeedback)) " TIME: " (get_time_as_string)))))
+                         " PRELUDE: " (last_chars (metta "(collapse (catch (prelude)))") (maxFeedback)) " TIME: " (get_time_as_string)))))
 
 (= (HandleError $msg $cmd $sexpr)
    (case $sexpr (((Error $a $b) (let $new (append (get-state &error) (($msg $cmd)))
