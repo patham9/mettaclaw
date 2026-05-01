@@ -14,7 +14,7 @@ def extract_timestamp(line):
         return None
 
 def around_time(needle_time_str, k):
-    needle_time_str = needle_time_str.replace('"', "").strip()
+    needle_time_str = needle_time_str.replace(r'\"', '').replace('"', '').strip()
     filename = "repos/OmegaClaw-Core/memory/history.metta"
     target = datetime.strptime(needle_time_str, "%Y-%m-%d %H:%M:%S")
     best_lineno = None
