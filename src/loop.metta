@@ -75,5 +75,6 @@
                                              (change-state! &lastresults (string-safe (repr $results)))))
                                 (if (> (get_time) (get-state &nextWakeAt))
                                     (change-state! &loops (+ 1 (maxWakeLoops))) _)))
+                      (export! &persistent (library mettaclaw ./memory/persistent.metta))
                       (sleep (sleepInterval))
                       (mettaclaw (+ 1 $k))))))
