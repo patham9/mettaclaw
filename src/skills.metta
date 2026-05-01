@@ -20,7 +20,9 @@
     "metta (|- ((==> (--> (× $1 elephant) eat) (--> $1 ([] dangerous))) (stv 1.0 0.9))"
     "          ((--> (× tiger elephant) eat) (stv 1.0 0.9)))"
     "Also: note the $1 for independent variables, and for negated knowledge use (stv 0.0 0.9)"
-    "Additionally |- also works for revision, to merge evidence even when the term of both premises is the same."))
+    "Additionally |- also works for revision, to merge evidence even when the term of both premises is the same."
+    "You can use: metta (add-atom &persistent sexpression) to add expressions to the persistent atomspace."
+    "Functions added there are also persisted and can be called directly via the metta command."))
 
 (= (read-file $file)
    (progn (translatePredicate (exists_file $file))
@@ -43,9 +45,15 @@
 
 !(import_prolog_functions_from_file (library mettaclaw ./src/skills.pl) (shell first_char))
 
+!(import_prolog_function call_with_inference_limit)
 (= (metta $str)
    (let $code (sread $str)
-        (repr (swrite (eval $code)))))
+        (repr (progn (call_with_inference_limit (Predicate (quote (eval $code $x))) 100000000) $x))))
 
 (= (pin $x)
    PIN-SUCCESS)
+
+(= (export! $space $file)
+   (progn (write-file $file "")
+          (collapse (let $x (get-atoms $space)
+                         (append-file $file (repr $x))))))

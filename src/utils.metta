@@ -66,8 +66,3 @@
         (if (== $res ())
             $default
             (car-atom $res))))
-
-(= (export! $space $file)
-   (progn (write-file $file "")
-          (collapse (let $x (get-atoms $space)
-                         (append-file $file (repr $x))))))
