@@ -20,7 +20,7 @@
           (configure maxOutputToken 6000)
           (configure reasoningMode medium)
           (configure wakeupInterval 600) ;600=10 minutes
-          (configure maxPersistentAtomsChars 1000)
+          (configure maxPersistentAtomsChars 10000)
           (configure maxPreludeChars 1000)
           (change-state! &prevmsg "")
           (change-state! &lastresults "")
