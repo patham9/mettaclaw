@@ -39,6 +39,9 @@ def test_git_pull_public_mock(llm):
         c.step("pre-create parent dir")
         dexec_root("mkdir", "-p", TARGET_DIR)
         dexec_root("chmod", "777", TARGET_DIR)
+        # Hand the directory to the agent's UID so it can rm -rf and
+        # re-create inside /tmp (sticky bit).
+        dexec_root("chown", "65534:65534", TARGET_DIR)
         dexec_root("git", "config", "--global", "--add", "safe.directory", TARGET_DIR)
         c.ok("pre-create dir", TARGET_DIR)
 

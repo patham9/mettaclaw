@@ -34,7 +34,7 @@ def test_skill_metta_mock(llm):
         # concrete number is communicated back.
         llm.set_answer(
             prompt,
-            '(metta (+ 2 2)) (send "The metta skill evaluated (+ 2 2) and returned 4.")',
+            '(metta "(+ 2 2)") (send "The metta skill evaluated (+ 2 2) and returned 4.")',
         )
         if not send_prompt(prompt):
             c.fail("irc", "could not deliver prompt within 60s")

@@ -76,6 +76,10 @@ def test_git_push_to_remote_mock(llm):
         c.step("pre-create target dir")
         dexec_root("mkdir", "-p", TARGET_DIR)
         dexec_root("chmod", "777", TARGET_DIR)
+        # Hand the directory to the agent's UID so it can rm -rf and
+        # re-create inside /tmp (sticky bit prevents nobody from
+        # removing root-owned dirs even with 0777 perms).
+        dexec_root("chown", "65534:65534", TARGET_DIR)
         c.ok("pre-create dir", TARGET_DIR)
 
         unique_file = f"qa-run-{c.run_id}.txt"
