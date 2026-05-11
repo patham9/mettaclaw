@@ -100,4 +100,4 @@
          (progn (py-call (helper.promotion_set_value $uuid (max 0.0 (- $v 1.0))))
                 (py-call (helper.promotion_set_lasttime $uuid $current_time))
                 (py-call (helper.promotion_commit))
-                PROMOTE-SUCCESS)))
+                DEMOTE-SUCCESS)))
