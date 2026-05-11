@@ -89,7 +89,7 @@
 (= (promote $uuid)
    (let* (($current_time (get_time))
           ($v (get-promotion $current_time $uuid)))
-         (progn (py-call (helper.promotion_set_value $uuid (+ 1.0 $v)))
+         (progn (py-call (helper.promotion_set_value $uuid (min 10.0 (+ 1.0 $v))))
                 (py-call (helper.promotion_set_lasttime $uuid $current_time))
                 (py-call (helper.promotion_commit))
                 PROMOTE-SUCCESS)))
