@@ -13,6 +13,8 @@ _connected = False
 MM_URL = "https://chat.singularitynet.io"
 CHANNEL_ID = "8fjrmabjx7gupy7e5kjznpt5qh" #NOT AN ID JUST NAME: "mettaclaw"x
 BOT_TOKEN = ""
+_seen_post_ids = set()
+_seen_post_ids_lock = threading.Lock()
 
 def _get_bot_user_id():
     global headers
@@ -75,9 +77,19 @@ def _ws_loop():
 
             if event.get("event") == "posted":
                 post = json.loads(event["data"]["post"])
-                if post["channel_id"] == CHANNEL_ID and post["user_id"] != BOT_USER_ID:
-                    name = _get_display_name(post["user_id"])
-                    _set_last(f"{name}: {post['message']}")
+                if post["channel_id"] != CHANNEL_ID:
+                    continue
+                if post["user_id"] == BOT_USER_ID:
+                    continue
+                post_id = post.get("id")
+                if not post_id:
+                    continue
+                with _seen_post_ids_lock:
+                    if post_id in _seen_post_ids:
+                        continue
+                    _seen_post_ids.add(post_id)
+                name = _get_display_name(post["user_id"])
+                _set_last(f"{name}: {post['message']}")
 
         except websocket.WebSocketTimeoutException:
             continue
