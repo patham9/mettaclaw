@@ -59,7 +59,7 @@
                                        ($send (py-str ($prompt :-:-:-: $lastmessage)))
                                        ($_ (println! (CHARS_SENT: (string_length $send) $send)))
                                        ($respi (if (== (provider) OpenAI)
-                                                   (useGPT (LLM) (maxOutputToken) (reasoningMode) $send)
+                                                   (py-call (lib_llm_ext.log_and_return "OpenAI" (LLM) (useGPT (LLM) (maxOutputToken) (reasoningMode) $send)))
                                                    (py-call (lib_llm_ext.callProvider (provider) $send (maxOutputToken)))))
                                        ($resp (py-call (helper.balance_parentheses $respi)))
                                        ($response (if (== "(" (first_char $resp)) $resp (progn (println! $resp) (repr (REMEMBER:OUTPUT_NOTHING_ELSE_THAN: ((skill arg) ...))))))

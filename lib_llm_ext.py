@@ -1,5 +1,27 @@
-import os, openai
+import os, time
+import openai
 from typing import Optional
+
+# LLM_RAW_RESPONSE_LOG_PATH: file path to append raw LLM responses to (use /dev/stdout for docker logs); empty/unset disables it
+_LLM_RAW_RESPONSE_LOG_PATH = os.environ.get("LLM_RAW_RESPONSE_LOG_PATH", "")
+
+
+def _log_raw(provider: str, model: str, raw: str) -> None:
+    if not _LLM_RAW_RESPONSE_LOG_PATH:
+        return
+    ts = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+    line = f"[LLM_RAW] ts={ts} provider={provider} model={model} chars={len(raw or '')} raw={raw!r}"
+    try:
+        with open(_LLM_RAW_RESPONSE_LOG_PATH, "a", encoding="utf-8") as fh:
+            fh.write(line + "\n")
+    except Exception as e:
+        print(f"[lib_llm_ext._log_raw] could not write raw log: {e}")
+
+
+def log_and_return(provider: str, model: str, text: str) -> str:
+    _log_raw(provider, model, text)
+    return text
+
 
 class AbstractAIProvider:
     def __init__(self, name: str):
@@ -66,7 +88,9 @@ class AIProvider(AbstractAIProvider):
                 **kwargs
             )
 
-            return self._clean_text(response.choices[0].message.content)
+            raw = response.choices[0].message.content
+            _log_raw(self._name, self._model_name, raw)
+            return self._clean_text(raw)
         except Exception as e:
             print(f"[lib_llm_ext.AIProvider.chat] Exception while communicating with LLM: {e}")
             return ""
@@ -103,7 +127,9 @@ class AsiOneProvider(AIProvider):
                 **kwargs
             )
 
-            resp = self._clean_text(response.choices[0].message.content)
+            raw = response.choices[0].message.content
+            _log_raw(self._name, self._model_name, raw)
+            resp = self._clean_text(raw)
             resp = resp.replace("</arg_value>", " ").replace("</tool_call>", " ").replace("<arg_value>", " ").replace("<tool_call>", " ")
             return resp
         except Exception as e:
