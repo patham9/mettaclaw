@@ -386,7 +386,7 @@ start
 }
 
 help() {
-    echo -e "Usage: ${0} [<image tag> | command] [options]"
+    echo -e "Usage: ${0} [<image tag> | command [options]]"
     echo
     echo -e "If used with <image tag> instead of command then boostrap Docker container"
     echo -e "in interactive mode."
@@ -418,6 +418,12 @@ options() {
     SL_BOT_TOKEN="${SL_BOT_TOKEN:-}"
     SL_CHANNEL_ID="${SL_CHANNEL_ID:-}"
     SL_POLL_INTERVAL="${SL_POLL_INTERVAL:-10}"
+
+    if [[ "$#" -eq 0 ]]; then
+        help
+        return 1
+    fi
+
     command=${1}
     shift 1
 
@@ -484,10 +490,11 @@ start() {
             --user 65534:65534
             --security-opt no-new-privileges:true
             --init
-            --volume omegaclaw-memory:/PeTTa/repos/OmegaClaw-Core/memory
+            --add-host=host.docker.internal:host-gateway
             --tmpfs /tmp:size=64m,mode=1777
-            --tmpfs /run:size=16m,mode=755
             --tmpfs /var/tmp:size=64m,mode=1777
+            --tmpfs /run:size=16m,mode=755
+            --volume omegaclaw-memory:/PeTTa/repos/OmegaClaw-Core/memory
             -e "${api_token_var}"="${api_token}"
             -e OMEGACLAW_AUTH_SECRET="$OMEGACLAW_AUTH_SECRET"
             -e LLM_SERVER_LOCAL_URL="$llm_server_local_url"
@@ -496,6 +503,7 @@ start() {
             "provider=${provider}"
             "embeddingprovider=${embeddingprovider}"
     )
+
     if [ "${commchannel}" = "irc" ]; then
       docker_cmd+=("IRC_channel=${IRC_channel}")
     elif [ "${commchannel}" = "telegram" ]; then

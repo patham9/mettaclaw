@@ -1,5 +1,7 @@
-sentence-transformers
-chromadb
-janus-swi
-openai
-uagents
+torch==2.5.1
+chromadb==1.5.9
+janus-swi==1.5.2
+openai==2.38.0
+uagents==0.25.1
+transformers==5.8.0
+sentence-transformers==5.5.1

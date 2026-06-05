@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import threading
 import time
 import urllib.error
@@ -33,6 +34,20 @@ class _SlackRateLimitError(Exception):
     def __init__(self, retry_after):
         super().__init__(f"Slack rate limited (retry after {retry_after}s)")
         self.retry_after = retry_after
+
+
+_URL_DISPLAY_RE = re.compile(r"<[^|>\s]+\|([^>]*)>")
+_URL_BARE_RE = re.compile(r"<([^>\s]+)>")
+
+
+def _slack_unwrap(text):
+    """Reverse Slack's outgoing auto-formatting so downstream layers see the original text."""
+    if not text:
+        return text
+    text = _URL_DISPLAY_RE.sub(r"\1", text)
+    text = _URL_BARE_RE.sub(r"\1", text)
+    text = text.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
+    return text
 
 
 def _set_last(msg):
@@ -335,7 +350,7 @@ def _poll_channel(channel_id):
         if message.get("subtype"):
             continue
 
-        text = str(message.get("text", "")).strip()
+        text = _slack_unwrap(str(message.get("text", "")).strip())
         user_id = str(message.get("user", "")).strip()
         if not text or not user_id:
             continue

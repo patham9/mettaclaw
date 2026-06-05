@@ -54,13 +54,14 @@ RUN mkdir -p /PeTTa/repos \
 
 RUN python3 -m pip install --no-cache-dir --break-system-packages \
     --index-url https://download.pytorch.org/whl/cpu \
-    torch \
+    torch==2.5.1 \
  && python3 -m pip install --no-cache-dir --break-system-packages \
-    chromadb \
-    janus-swi \
-    openai \
-    uagents \
-    sentence-transformers
+    chromadb==1.5.9 \
+    janus-swi==1.5.2 \
+    openai==2.38.0 \
+    uagents==0.25.1 \
+    transformers==5.8.0 \
+    sentence-transformers==5.5.1
 
 # Pre-download the sentence-transformers model so runtime does not need network access.
 RUN mkdir -p "${HF_HOME}" "${SENTENCE_TRANSFORMERS_HOME}" \
