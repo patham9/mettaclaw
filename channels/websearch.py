@@ -4,6 +4,18 @@ import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
 
+from ddgs import DDGS #pip install ddgs
+def search_(query, max_results=10):
+    with DDGS() as ddgs:
+        return [
+            {
+                "title": r.get("title", ""),
+                "url": r.get("href", ""),
+                "snippet": r.get("body", "")
+            }
+            for r in ddgs.text(query, max_results=max_results)
+        ]
+
 class DDGParser(HTMLParser):
     def __init__(self):
         super().__init__()

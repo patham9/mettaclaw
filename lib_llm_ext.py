@@ -19,10 +19,12 @@ def _clean(text):
     return text.replace("_quote_", '"').replace("_apostrophe_", "'")
 
 def _chat(client, model, content, max_tokens=6000, max_retries=5, retry_delay=1):
+    sysmsg, usermsg = content.split(":-:-:-:")
     for attempt in range(max_retries):
         resp = client.chat.completions.create(
             model=model,
-            messages=[{"role": "user", "content": content}],
+            messages=[{"role": "system", "content": sysmsg},
+                      {"role": "user", "content": usermsg}],
             max_tokens=max_tokens,
             extra_body={
             "enable_thinking": True,

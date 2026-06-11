@@ -18,7 +18,7 @@
           (configure spamShield True)
           (configure sleepInterval 1) ;10
           (configure LLM gpt-5.4)
-          (configure provider Anthropic) ;Anthropic or OpenAI or ASICloud or OpenRouter
+          (configure provider OpenRouter) ;Anthropic or OpenAI or ASICloud or OpenRouter
           (configure maxOutputToken 6000)
           (configure reasoningMode medium)
           (configure wakeupInterval 600) ;600=10 minutes
@@ -66,7 +66,7 @@
                                 (let* (($lastmessage (if $msgnew (HUMAN-MSG: $msg) (if (spamShield) " DO NOT RE-SEND OR SPAM!" "")))
                                        ($_ (change-state! &nextWakeAt (+ (get_time) (wakeupInterval))))
                                        ($_ (println! $lastmessage))
-                                       ($send (py-str ($prompt $lastmessage)))
+                                       ($send (py-str ($prompt :-:-:-: $lastmessage)))
                                        ($_ (println! (CHARS_SENT: (string_length $send) $send)))
                                        ($respi (if (and (visionChannelActive) (== 0 (% $k (visionRate))))
                                                    (py-call (lib_llm_ext.useClaudeYoutubeImage $send (visionChannel)))
