@@ -8,19 +8,19 @@ from datetime import datetime
 
 TS_RE = re.compile(r'^\("(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})"')
 LLM_COMMANDS = {
-    "append-file",
-    "episodes",
-    "metta",
     "pin",
-    "query",
-    "read-file",
     "remember",
+    "query",
+    "episodes",
     "search",
     "send",
-    "shell",
     "promote",
     "demote",
+    "metta",
+    "shell",
+    "read-file",
     "write-file",
+    "append-file",
 }
 
 
