@@ -19,7 +19,7 @@ def _clean(text):
     return text.replace("_quote_", '"').replace("_apostrophe_", "'")
 
 def _chat(client, model, content, max_tokens=6000, max_retries=5, retry_delay=1):
-    content = content.replace("<tool_call>","").replace("<arg_value>"," ").replace("</tool_call>","").replace("</arg_value>","")
+    content = content.replace("<tool_call>","").replace("<arg_value>"," ").replace("</tool_call>"," ").replace("</arg_value>","")
     sysmsg, usermsg = content.split(":-:-:-:", 1)
 
     if not usermsg.strip():
