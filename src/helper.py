@@ -191,8 +191,6 @@ def promotion_open_map(path="repos/mettaclaw/memory/promotions.db"):
     _PROMOTION_CONN = sqlite3.connect(path)
     _PROMOTION_CONN.execute("PRAGMA journal_mode=WAL")
     _PROMOTION_CONN.execute("PRAGMA synchronous=NORMAL")
-    _PROMOTION_CONN.execute("PRAGMA foreign_keys=ON")
-
     _PROMOTION_CONN.execute("""
         CREATE TABLE IF NOT EXISTS kv (
             key BLOB PRIMARY KEY,
@@ -200,21 +198,6 @@ def promotion_open_map(path="repos/mettaclaw/memory/promotions.db"):
             lasttime REAL
         )
     """)
-
-    _PROMOTION_CONN.execute("""
-        CREATE TABLE IF NOT EXISTS promotion_times (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            key BLOB NOT NULL,
-            time REAL NOT NULL,
-            FOREIGN KEY (key) REFERENCES kv(key) ON DELETE CASCADE
-        )
-    """)
-
-    _PROMOTION_CONN.execute("""
-        CREATE INDEX IF NOT EXISTS idx_promotion_times_key_id
-        ON promotion_times(key, id)
-    """)
-
     _PROMOTION_CONN.commit()
 
 def promotion_key(k):
@@ -249,81 +232,22 @@ def promotion_get_all_keys():
     ).fetchall()
     return [str(uuid.UUID(bytes=row[0])) for row in rows]
 
-
 def promotion_set_lasttime(k, t):
-    key = promotion_key(k)
-
-    # Preserve the old behavior where setting a time creates the key.
     _PROMOTION_CONN.execute(
         """
-        INSERT INTO kv(key, value)
-        VALUES (?, 0.0)
-        ON CONFLICT(key) DO NOTHING
+        INSERT INTO kv(key, value, lasttime)
+        VALUES (?, 0.0, ?)
+        ON CONFLICT(key) DO UPDATE SET lasttime = excluded.lasttime
         """,
-        (key,)
-    )
-
-    _PROMOTION_CONN.execute(
-        """
-        INSERT INTO promotion_times(key, time)
-        VALUES (?, ?)
-        """,
-        (key, float(t))
+        (promotion_key(k), float(t))
     )
 
 def promotion_get_lasttime(k, default=None):
-    key = promotion_key(k)
-
-    # Prefer the latest newly appended time.
-    row = _PROMOTION_CONN.execute(
-        """
-        SELECT time
-        FROM promotion_times
-        WHERE key = ?
-        ORDER BY id DESC
-        LIMIT 1
-        """,
-        (key,)
-    ).fetchone()
-
-    if row:
-        return row[0]
-
-    # Fall back to the legacy kv.lasttime value.
     row = _PROMOTION_CONN.execute(
         "SELECT lasttime FROM kv WHERE key = ?",
-        (key,)
+        (promotion_key(k),)
     ).fetchone()
-
     return row[0] if row and row[0] is not None else default
-
-
-def promotion_get_alltimes(k):
-    key = promotion_key(k)
-    times = []
-
-    # Legacy time comes first, if present.
-    row = _PROMOTION_CONN.execute(
-        "SELECT lasttime FROM kv WHERE key = ?",
-        (key,)
-    ).fetchone()
-
-    if row and row[0] is not None:
-        times.append(row[0])
-
-    # Then all newly appended times in insertion order.
-    rows = _PROMOTION_CONN.execute(
-        """
-        SELECT time
-        FROM promotion_times
-        WHERE key = ?
-        ORDER BY id ASC
-        """,
-        (key,)
-    ).fetchall()
-
-    times.extend(row[0] for row in rows)
-    return times
 
 def promotion_has_key(k):
     row = _PROMOTION_CONN.execute(
@@ -333,7 +257,6 @@ def promotion_has_key(k):
     return row is not None
 
 def promotion_delete_key(k):
-    # With foreign_keys enabled, associated times are deleted automatically.
     _PROMOTION_CONN.execute(
         "DELETE FROM kv WHERE key = ?",
         (promotion_key(k),)
@@ -359,22 +282,13 @@ if __name__ == "__main__":
     promotion_set_value(k, 0.73)
     assert promotion_get_value(k) == 0.73
     assert promotion_has_key(k) is True
-
     promotion_set_lasttime(k, 123.45)
-    promotion_set_lasttime(k, 234.56)
-    promotion_set_lasttime(k, 234.56)
-
-    assert promotion_get_lasttime(k) == 234.56
-    assert promotion_get_alltimes(k) == [123.45, 234.56, 234.56]
+    assert promotion_get_lasttime(k) == 123.45
     assert promotion_get_value(k) == 0.73
-
     promotion_delete_key(k)
-
     assert promotion_has_key(k) is False
     assert promotion_get_value(k) is None
     assert promotion_get_lasttime(k) is None
-    assert promotion_get_alltimes(k) == []
-
     promotion_close_map()
     os.remove(path)
     print("promotion hashmap tests passed")
