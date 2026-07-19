@@ -43,3 +43,7 @@ gc(true) :-
     garbage_collect,
     garbage_collect_atoms,
     trim_stacks.
+
+replace_underscores(Input, Output) :-
+    split_string(Input, "_", "", Parts),
+    atomics_to_string(Parts, " ", Output).

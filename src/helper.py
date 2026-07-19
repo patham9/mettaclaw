@@ -99,7 +99,7 @@ def around_time(needle_time_str, k):
 def balance_parentheses(s):
     s = s.replace("_quote_", '"').replace("_newline_", "\n")
     sexprs = []
-    special_two_arg_cmds = {"write-file", "append-file"}
+    special_two_arg_cmds = {"write-file", "append-file", "update"}
     for line in split_command_blocks(s):
         line = line.strip()
         if not line:
@@ -219,7 +219,7 @@ def promotion_set_value(k, v):
         (promotion_key(k), float(v))
     )
 
-def promotion_get_value(k, default=None):
+def promotion_get_value(k, default=0.0):
     row = _PROMOTION_CONN.execute(
         "SELECT value FROM kv WHERE key = ?",
         (promotion_key(k),)
@@ -242,7 +242,7 @@ def promotion_set_lasttime(k, t):
         (promotion_key(k), float(t))
     )
 
-def promotion_get_lasttime(k, default=None):
+def promotion_get_lasttime(k, default=0.0):
     row = _PROMOTION_CONN.execute(
         "SELECT lasttime FROM kv WHERE key = ?",
         (promotion_key(k),)
@@ -287,9 +287,8 @@ if __name__ == "__main__":
     assert promotion_get_value(k) == 0.73
     promotion_delete_key(k)
     assert promotion_has_key(k) is False
-    assert promotion_get_value(k) is None
-    assert promotion_get_lasttime(k) is None
+    assert promotion_get_value(k) == 0.0
+    assert promotion_get_lasttime(k) == 0.0
     promotion_close_map()
     os.remove(path)
     print("promotion hashmap tests passed")
-

@@ -18,7 +18,7 @@
           (configure spamShield False)
           (configure sleepInterval 1) ;10
           (configure LLM gpt-5.4)
-          (configure provider OpenRouter) ;Anthropic or OpenAI or ASICloud or OpenRouter
+          (configure provider Anthropic) ;Anthropic or OpenAI or ASICloud or OpenRouter
           (configure maxOutputToken 6000)
           (configure reasoningMode medium)
           (configure wakeupInterval 600) ;600=10 minutes
@@ -52,7 +52,13 @@
 (= (mettaclaw $k)
    (progn (if (== $k 1) (progn (initLoop)
                                (initMemory)
-                               (initChannels))
+                               (initChannels)
+                               ;(remember "hello world")
+                               ;(promote "2026-07-19 20:26:40")
+                               ;(update "2026-07-19 20:27:11" "hello zhanna")
+                               ;(println! (query "hello"))
+                               ;(translatePredicate (abort))
+                               )
                         (change-state! &loops (- (get-state &loops) 1)))
           (let $prompt (getContext)
                (progn (println! (---------iteration $k))

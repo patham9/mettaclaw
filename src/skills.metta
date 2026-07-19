@@ -4,7 +4,8 @@
     "- Query long-term embedding memory for skills and memories with short phrases only: query string"
     "- Episodes searches history for episodes around a time stamp, time format is same as in TIME: episodes %Y-%m-%d %H:%M:%S"
     "- Pin a certain string as short-term working memory item to keep track of task state: pin string"
-    "- Promote a memory that you found useful, to make it easier to be recalled in the future in similar context: promote time_string"
+    "- Promote a useful memory and link it to the current episode, making related episodes easier to recall and the memory easier to retrieve in similar contexts: promote time_string"
+    "- Update the label and embedding of a memory, linked episodes and promotion will transfer over, here with underline: update %Y-%m-%d_%H:%M:%S new_memory_string"
     ;SHELL AND FILE I/O:
     "- Execute shell command without apostrophe in string, it returns the command output to you: shell string"
     "- Read file to string: read-file filename"
@@ -45,7 +46,7 @@
           (translatePredicate (close $Out))
           APPEND-FILE-SUCCESS))
 
-!(import_prolog_functions_from_file (library mettaclaw ./src/skills.pl) (shell first_char gc))
+!(import_prolog_functions_from_file (library mettaclaw ./src/skills.pl) (shell first_char gc replace_underscores))
 
 !(import_prolog_function call_with_inference_limit)
 (= (metta $str)
