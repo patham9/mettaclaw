@@ -55,6 +55,7 @@
                                (initChannels)
                                ;(remember "hello world")
                                ;(promote "2026-07-20 02:45:46")
+                               ;(support "2026-05-06 11:57:19")
                                ;(update "2026-07-20 02:45:46" "hallo welt")
                                ;(println! (query "hello"))
                                ;(translatePredicate (abort))

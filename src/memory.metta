@@ -90,7 +90,7 @@
                (if (!= $oldids ())
                    (progn (collapse (let* (($oldid (superpose $oldids))
                                           (($s $c) (py-call (lib_chromadb.get_stv $oldid)))
-                                          (($snew $cnew) (Truth_Revision (stv $s $c) (stv (if $sign 1.0 0.0) 0.5))))
+                                          ((stv $snew $cnew) (Truth_Revision (stv $s $c) (stv (if $sign 1.0 0.0) 0.5))))
                                          (py-call (lib_chromadb.set_stv $oldid $snew $cnew))))
                           REVISION-SUCCESS)
                    REVISION-FAILED-LTM-ITEM-OF-TIME-DID-NOT-EXIST))))
