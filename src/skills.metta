@@ -8,6 +8,9 @@
     "- Update the label and embedding of a memory, linked episodes and promotion will transfer over, here with underline: update %Y-%m-%d_%H:%M:%S new_memory_string"
     "- Link episode to LTM item, has no promotion effect, both times with %Y-%m-%d_%H:%M:%S format: link $ltm_time $episode_time"
     "- Unlink episode from LTM, both times with %Y-%m-%d_%H:%M:%S format: unlink $ltm_time $episode_time"
+    "- Current episode supports LTM item, promoting it, linking to current episode time, and positively updating its truth value %Y-%m-%d %H:%M:%S format: support $episode_time"
+    "- Current episode contradicts LTM item, promoting it, linking to current episode time, and negatively updating its truth value %Y-%m-%d %H:%M:%S format: contradict $episode_time"
+    "- Unlink episode from LTM, both times with %Y-%m-%d_%H:%M:%S format: unlink $ltm_time $episode_time"
     ;SHELL AND FILE I/O:
     "- Execute shell command without apostrophe in string, it returns the command output to you: shell string"
     "- Read file to string: read-file filename"
