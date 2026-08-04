@@ -85,7 +85,7 @@
              UPDATE-FAILED-LTM-ITEM-OF-TIME-DID-NOT-EXIST)))
 
 (= (tvUpdate $time $sign)
-   (progn (promote $time)
+   (progn (if $sign (promote $time) (demote $time))
           (let $oldids (py-call (lib_chromadb.ids_by_time $time))
                (if (!= $oldids ())
                    (progn (collapse (let* (($oldid (superpose $oldids))
