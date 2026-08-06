@@ -1,16 +1,17 @@
 (= (getSkills)
    (;INTERNAL:
     "- Remember a particular string such as skills and memories: remember string"
+    "- Forget a particular LTM item via its timestamp: forget %Y-%m-%d %H:%M:%S"
     "- Query long-term embedding memory for skills and memories with short phrases only: query string"
     "- Episodes searches history for episodes around a time stamp, time format is same as in TIME: episodes %Y-%m-%d %H:%M:%S"
     "- Pin a certain string as short-term working memory item to keep track of task state: pin string"
-    "- Promote a useful memory and link it to the current episode, making related episodes easier to recall and the memory easier to retrieve in similar contexts: promote %Y-%m-%d %H:%M:%S"
-    "- Demote a memory, making related episodes harder to recall and the memory harder to retrieve in similar contexts: demote %Y-%m-%d %H:%M:%S"
+    "- Promote a useful memory, making the memory easier to retrieve in similar contexts: promote %Y-%m-%d %H:%M:%S"
+    "- Demote a memory, making the memory harder to retrieve in similar contexts: demote %Y-%m-%d %H:%M:%S"
     "- Update the label and embedding of a memory, linked episodes and promotion will transfer over, here with underline: update %Y-%m-%d_%H:%M:%S new_memory_string"
     "- Link episode to LTM item, has no promotion effect, both times with %Y-%m-%d_%H:%M:%S format: link $ltm_time $episode_time"
     "- Unlink episode from LTM, both times with %Y-%m-%d_%H:%M:%S format: unlink $ltm_time $episode_time"
-    "- Current episode supports LTM item, promoting it, linking to current episode time, and positively updating its truth value, in %Y-%m-%d %H:%M:%S format: support $episode_time"
-    "- Current episode contradicts LTM item, demoting it, linking to current episode time, and negatively updating its truth value, in %Y-%m-%d %H:%M:%S format: contradict $episode_time"
+    "- When an episode supports LTM item, linking it to the episode time, and positively updating its truth value, bot times in %Y-%m-%d_%H:%M:%S format: support $ltm_time $episode_time"
+    "- When an episode contradicts LTM item, linking it to the episode time, and negatively updating its truth value, both times in %Y-%m-%d_%H:%M:%S format: contradict $ltm_time $$episode_time"
     ;SHELL AND FILE I/O:
     "- Execute shell command without apostrophe in string, it returns the command output to you: shell string"
     "- Read file to string: read-file filename"
